@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सुरेश टेलर्स - मोजमाप फॉर्म</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+        .tab.active {
+            background-color: #007bff;
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="tel"], input[type="date"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>सुरेश टेलर्स</h1>
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('shirt')">शर्ट</button>
+            <button class="tab" onclick="showTab('pant')">पॅन्ट</button>
+        </div>
+        <form id="measurementForm" onsubmit="return submitForm()">
+            <div class="form-group">
+                <label for="name">नाव</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">फोन नंबर</label>
+                <input type="tel" id="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="date">आजची तारीख</label>
+                <input type="date" id="date" required>
+            </div>
+            <div class="form-group">
+                <label for="deliveryDate">या तारखेला देईन</label>
+                <input type="date" id="deliveryDate" required>
+            </div>
+            <div id="shirtFields">
+                <div class="form-group">
+                    <label for="shirtLength">लांबी</label>
+                    <input type="number" id="shirtLength">
+                </div>
+                <div class="form-group">
+                    <label for="shirtChest">छाती</label>
+                    <input type="number" id="shirtChest">
+                </div>
+                <div class="form-group">
+                    <label for="shirtWaist">प्रकार</label>
+                    <input type="text" id="shirtWaist">
+                </div>
+                <div class="form-group">
+                    <label for="shirtShoulder">शोल्डर</label>
+                    <input type="number" id="shirtShoulder">
+                </div>
+                <div class="form-group">
+                    <label for="shirtSleeve">असतीन</label>
+                    <input type="number" id="shirtSleeve">
+                </div>
+                <div class="form-group">
+                    <label for="shirtCollar">कॉलर</label>
+                    <input type="number" id="shirtCollar">
+                </div>
+                <div class="form-group">
+                    <label for="shirtCuff">कप</label>
+                    <input type="number" id="shirtCuff">
+                </div>
+            </div>
+            <div id="pantFields" style="display:none;">
+                <div class="form-group">
+                    <label for="pantLength">लांबी</label>
+                    <input type="number" id="pantLength">
+                </div>
+                <div class="form-group">
+                    <label for="pantWaist">कंबर</label>
+                    <input type="number" id="pantWaist">
+                </div>
+                <div class="form-group">
+                    <label for="pantSeat">सीट</label>
+                    <input type="number" id="pantSeat">
+                </div>
+                <div class="form-group">
+                    <label for="pantThigh">मांडी</label>
+                    <input type="number" id="pantThigh">
+                </div>
+                <div class="form-group">
+                    <label for="pantKnee">गुडघा</label>
+                    <input type="number" id="pantKnee">
+                </div>
+                <div class="form-group">
+                    <label for="pantBottom">बॉटम</label>
+                    <input type="number" id="pantBottom">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="other">इतर</label>
+                <input type="text" id="other">
+            </div>
+            <button type="submit">सबमिट करा</button>
+        </form>
+    </div>
+    <script>
+        function showTab(tab) {
+            document.getElementById('shirtFields').style.display = tab === 'shirt' ? 'block' : 'none';
+            document.getElementById('pantFields').style.display = tab === 'pant' ? 'block' : 'none';
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function submitForm() {
+            let formData = {
+                id: Math.floor(10000 + Math.random() * 90000),
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                date: document.getElementById('date').value,
+                deliveryDate: document.getElementById('deliveryDate').value,
+                other: document.getElementById('other').value,
+            };
+
+            if (document.getElementById('shirtFields').style.display !== 'none') {
+                formData.type = 'shirt';
+                formData.shirtLength = document.getElementById('shirtLength').value;
+                formData.chest = document.getElementById('shirtChest').value;
+                formData.waist = document.getElementById('shirtWaist').value;
+                formData.shoulder = document.getElementById('shirtShoulder').value;
+                formData.sleeve = document.getElementById('shirtSleeve').value;
+                formData.collar = document.getElementById('shirtCollar').value;
+                formData.cuff = document.getElementById('shirtCuff').value;
+            } else {
+                formData.type = 'pant';
+                formData.pantLength = document.getElementById('pantLength').value;
+                formData.waist = document.getElementById('pantWaist').value;
+                formData.seat = document.getElementById('pantSeat').value;
+                formData.thigh = document.getElementById('pantThigh').value;
+                formData.knee = document.getElementById('pantKnee').value;
+                formData.bottom = document.getElementById('pantBottom').value;
+            }
+
+            let entries = JSON.parse(localStorage.getItem('entries')) || [];
+            entries.push(formData);
+            localStorage.setItem('entries', JSON.stringify(entries));
+
+            window.location.href = 'confirmation.html';
+            return false;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सुरेश टेलर्स - नोंदी</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+            color: #495057;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #343a40;
+            font-weight: 600;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        th, td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+            font-size: 15px;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #495057;
+            font-weight: 600;
+        }
+        .search-container {
+            margin-bottom: 20px;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ced4da;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .button {
+            padding: 12px 25px;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        .new-entry-button {
+            background-color: #28a745; /* Green for नवीन नोंद */
+        }
+        .new-entry-button:hover {
+            background-color: #218838;
+        }
+        .logout-button {
+            background-color: #dc3545; /* Red for लॉगआउट */
+        }
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>सुरेश टेलर्स - नोंदी</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="नाव शोधा...">
+        </div>
+        <div class="section" id="shirtSection">
+            <h2>शर्ट नोंदी</h2>
+            <table id="shirtTable">
+                <thead>
+                    <tr>
+                        <th>आयडी</th>
+                        <th>नाव</th>
+                        <th>फोन नंबर</th>
+                        <th>तारीख</th>
+                        <th>डिलिव्हरी तारीख</th>
+                        <th>लांबी</th>
+                        <th>छाती</th>
+                        <th>प्रकार</th>
+                        <th>शोल्डर</th>
+                        <th>असतीन</th>
+                        <th>कॉलर</th>
+                        <th>कप</th>
+                        <th>इतर माहिती</th>
+                    </tr>
+                </thead>
+                <tbody id="shirtEntriesBody"></tbody>
+            </table>
+        </div>
+        <div class="section" id="pantSection">
+            <h2>पॅन्ट नोंदी</h2>
+            <table id="pantTable">
+                <thead>
+                    <tr>
+                        <th>आयडी</th>
+                        <th>नाव</th>
+                        <th>फोन नंबर</th>
+                        <th>तारीख</th>
+                        <th>डिलिव्हरी तारीख</th>
+                        <th>लांबी</th>
+                        <th>कंबर</th>
+                        <th>सीट</th>
+                        <th>मांडी</th>
+                        <th>गुडघा</th>
+                        <th>बॉटम</th>
+                        <th>इतर माहिती</th>
+                    </tr>
+                </thead>
+                <tbody id="pantEntriesBody"></tbody>
+            </table>
+        </div>
+        <div class="button-container">
+            <a href="index.html" class="button new-entry-button">नवीन नोंद</a>
+            <button onclick="logout()" class="button logout-button">लॉगआउट</button>
+        </div>
+    </div>
+
+    <footer>
+        Developed by Ritesh Khamitkar | Phone Number : 7021743782
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('loggedIn')) {
+                window.location.href = 'login.html';
+            } else {
+                loadEntries();
+            }
+        });
+
+        function loadEntries() {
+            const entries = JSON.parse(localStorage.getItem('entries')) || [];
+            const shirtTableBody = document.getElementById('shirtEntriesBody');
+            const pantTableBody = document.getElementById('pantEntriesBody');
+            
+            shirtTableBody.innerHTML = '';
+            pantTableBody.innerHTML = '';
+            
+            entries.forEach(entry => {
+                const row = document.createElement('tr');
+                if (entry.type === 'shirt') {
+                    row.innerHTML = `
+                        <td>${entry.id}</td>
+                        <td>${entry.name}</td>
+                        <td>${entry.phone}</td>
+                        <td>${entry.date}</td>
+                        <td>${entry.deliveryDate}</td>
+                        <td>${entry.shirtLength}</td>
+                        <td>${entry.chest}</td>
+                        <td>${entry.waist}</td>
+                        <td>${entry.shoulder}</td>
+                        <td>${entry.sleeve}</td>
+                        <td>${entry.collar}</td>
+                        <td>${entry.cuff}</td>
+                        <td>${entry.other}</td>
+                    `;
+                    shirtTableBody.appendChild(row);
+                } else if (entry.type === 'pant') {
+                    row.innerHTML = `
+                        <td>${entry.id}</td>
+                        <td>${entry.name}</td>
+                        <td>${entry.phone}</td>
+                        <td>${entry.date}</td>
+                        <td>${entry.deliveryDate}</td>
+                        <td>${entry.pantLength}</td>
+                        <td>${entry.waist}</td>
+                        <td>${entry.seat}</td>
+                        <td>${entry.thigh}</td>
+                        <td>${entry.knee}</td>
+                        <td>${entry.bottom}</td>
+                        <td>${entry.other}</td>
+                    `;
+                    pantTableBody.appendChild(row);
+                }
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            const tables = [document.getElementById('shirtTable'), document.getElementById('pantTable')];
+            
+            tables.forEach(table => {
+                const rows = table.getElementsByTagName('tr');
+                for (let i = 1; i < rows.length; i++) {
+                    const name = rows[i].cells[1].textContent.toLowerCase();
+                    rows[i].style.display = name.includes(searchTerm) ? '' : 'none';
+                }
+            });
+        });
+
+        function logout() {
+            localStorage.removeItem('loggedIn');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
